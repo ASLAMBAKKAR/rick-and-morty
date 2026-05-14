@@ -1,0 +1,16 @@
+{
+  "name": "rick-and-morty",
+  "version": "1.0.0",
+  "description": "sample project to integrate rick and morty api",
+  "license": "ISC",
+  "author": "aslam",
+  "type": "commonjs",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -e js,css,html server.js"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
