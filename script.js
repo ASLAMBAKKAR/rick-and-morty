@@ -1,16 +1,12 @@
 const container = document.getElementById("root");
 const cards = document.createElement("div");
 cards.classList.add("card-container");
-let page = 1;
-const charactersPerPage = 10;
+
+
+    
 
 container.appendChild(cards);
 
-// create a function to fetch the data from the API and display it on the console.
-// fetch('https://rickandmortyapi.com/api/character')
-// when data printing completes,
-
-// let sample = [1, 2, 3, 4, 5, 6]
 
 const getData = async function () {
   const characters = await fetch(
@@ -65,6 +61,32 @@ function displayCharacters(characters) {
   };
 }
 
+let currentPage = 1;
+
+function pagination() {
+    const paginationDiv = document.createElement("div");
+paginationDiv.classList.add("navDiv");
+
+const previousButton = document.createElement("button");
+previousButton.classList.add("previousButton");
+previousButton.textContent = "<<<";
+previousButton.addEventListener("click", () => console.log("previous button clicked"));
+
+
+const nextButton = document.createElement("button");
+nextButton.classList.add("nextButton");
+nextButton.textContent = ">>>";
+nextButton.addEventListener("click", () => console.log("next button clicked"));
+
+paginationDiv.appendChild(previousButton);
+paginationDiv.appendChild(nextButton);
+
+document.body.appendChild(paginationDiv);
+
+
+}
+  
+pagination()
 getData();
 
 // Create a div for each character and append it to the container, show name and image of each character

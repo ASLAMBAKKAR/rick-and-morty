@@ -66,3 +66,29 @@ img {
     cursor: pointer;
     border-radius: 5px;
 }
+.navDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.previousButton,
+.nextButton {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(1, 0, 2);
+  border: none;
+  color: white;
+  padding: 5px 5px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  justify-content: center;
+  padding-left :5px;
+  justify-content: space-between;
+  margin :10px 
+  
+}
