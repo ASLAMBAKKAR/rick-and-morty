@@ -18,7 +18,7 @@ const getData = async function () {
     );
     const data = await response.json();
 
-     const limitedResults = data.results.slice(0, 10);
+     const limitedResults = data.results.slice(0, 15);
 
     displayCharacters(limitedResults);
   } catch (error) {

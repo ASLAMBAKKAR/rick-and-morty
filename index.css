@@ -1,5 +1,10 @@
+body{
+    margin: 0;
+    background-color: #ffffff;
+}
 .card-container {
     background-color: rgb(0, 0, 0);
+    
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -31,7 +36,7 @@ img {
 
 .card-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center
 }
@@ -63,13 +68,16 @@ img {
     border-radius: 5px;
 }
 .navDiv{
+    background-color: black;
+      bottom : 0;
+  position: sticky; 
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
 }
 .previousButton,
-.nextButton {
+.nextButton { 
   text-align: center;
   display: flex;
   justify-content: center;
@@ -89,6 +97,8 @@ img {
   
 }
 .header{
+  top :0;
+  position : sticky; 
   text-align:center;
   font-size:45px;
   background-color: #050505;
