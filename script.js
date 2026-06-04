@@ -1,45 +1,48 @@
 const container = document.getElementById("root");
+const head = document.createElement("div");
 const cards = document.createElement("div");
 const header = document.createElement("h3");
-const searchContainer= document.createElement("div");
+const searchContainer = document.createElement("div");
 const search = document.createElement("input");
+const parentDiv = document.createElement("div");
 const resultContainer = document.createElement("div");
- 
+
 resultContainer.classList.add("result-container");
+head.classList.add("head");
+container.appendChild(head);
 search.classList.add("searchBar");
 search.placeholder = "⌕";
-searchContainer.classList.add("searchdiv")
+searchContainer.classList.add("searchdiv");
 cards.classList.add("card-container");
-container.appendChild(header);
+head.appendChild(header);
 header.classList.add("header");
 header.textContent = "RiCk aNd mOrtY";
-container.appendChild(searchContainer);
+head.appendChild(searchContainer);
 searchContainer.appendChild(search);
-container.appendChild(cards);
+parentDiv.appendChild(cards);
 container.appendChild(resultContainer);
-
+container.appendChild(parentDiv);
+parentDiv.classList.add("parentdiv");
 
 let currentPage = 1;
-let pageIndicator; 
-
+let totalPage = 42;
+let pageIndicator;
 
 const getData = async function () {
   cards.innerHTML = "";
-   if (pageIndicator) {
-    pageIndicator.textContent = ` Page ${currentPage} `;
-  }
+
+  const currentPageNum = document.getElementById("currentPageNum");
+  if (currentPageNum) currentPageNum.textContent = currentPage;
+
   try {
     const response = await fetch(
-      `https://rickandmortyapi.com/api/character?page=${currentPage}`,
+      `https://rickandmortyapi.com/api/character?page=${currentPage}`
     );
     const data = await response.json();
-    
 
-     const limitedResults = data.results.slice(0, 15);
-
+    const limitedResults = data.results.slice(0,15);
     displayCharacters(limitedResults);
   } catch (error) {
-
     console.error("Error fetching data:", error);
   }
 };
@@ -63,7 +66,7 @@ function displayCharacters(characters) {
 
     [gender, species, location].forEach((item) => {
       item.classList.add("elements", `char-${id}`);
-      item.style.display = "none"; 
+      item.style.display = "none";
     });
 
     gender.textContent = " Gender: " + character.gender;
@@ -72,12 +75,11 @@ function displayCharacters(characters) {
     nameHeading.textContent = character.name;
 
     [image, nameHeading, gender, location, species, button].forEach((item) =>
-      innerDiv.appendChild(item),
+      innerDiv.appendChild(item)
     );
 
     cards.appendChild(innerDiv);
   });
- 
 
   setupToggleButtons();
 }
@@ -89,103 +91,154 @@ function setupToggleButtons() {
     button.onclick = function (event) {
       const idClass = event.target.classList[1];
       const elements = document.querySelectorAll(`.elements.${idClass}`);
+      const clickedCard = event.target.closest(".innerDiv");
+      const allCards = document.querySelectorAll(".innerDiv");
+      const isOpen = clickedCard.classList.contains("active-card");
 
-      elements.forEach((element) => {
-        if (element.style.display === "block") {
-          element.style.display = "none";
-          event.target.textContent = "View More";
-        } else {
-          element.style.display = "block";
-          event.target.textContent = "Hide Content";
-        }
-      });
+      if (isOpen) {
+        elements.forEach((el) => (el.style.display = "none"));
+        event.target.textContent = "View More";
+        event.target.classList.remove("open");
+        event.target.classList.remove("close-btn");
+        clickedCard.classList.remove("active-card");
+        allCards.forEach((card) => card.classList.remove("blurred-card"));
+      } else {
+        elements.forEach((el) => (el.style.display = "block"));
+        event.target.textContent = "×";
+        event.target.classList.add("open");
+        event.target.classList.add("close-btn");
+        clickedCard.classList.add("active-card");
+        allCards.forEach((card) => {
+          if (card !== clickedCard) {
+            card.classList.add("blurred-card");
+          }
+        });
+      }
     };
   });
 }
 
-function searCharacters(){
-
-  const input = document.querySelector('input');
-  document
+function searCharacters() {
+  const input = document.querySelector("input");
   let timeout;
-  
 
-  input.addEventListener("input", (e)=>{
+  input.addEventListener("input", (event) => {
     const query = event.target.value.trim();
 
     clearTimeout(timeout);
 
-    timeout = setTimeout(()=>{
-        fetchData(query);
-      
-    },300);
-   
+    timeout = setTimeout(() => {
+      fetchData(query);
+    }, 300);
+  });
 
-
-    console.log(e.target.value)
-  })
   async function fetchData(query) {
-  cards.innerHTML = "";
+    cards.innerHTML = "";
 
-  try {
-    const response = await fetch(
-      `https://rickandmortyapi.com/api/character/?name=${query}`
-    );
-
-    if (!response.ok) {
-      throw new Error("Character not found!!!");
+    if (!query) {
+      getData();
+      return;
     }
-    const data = await response.json();
-
-    displayCharacters(data.results);
-  } catch (error) {
-    cards.innerHTML = `
-      <h1>No characters found</h1>
-    `;
-    console.error(error);
+    try {
+      const response = await fetch(
+        `https://rickandmortyapi.com/api/character/?name=${query}`
+      );
+      if (!response.ok) {
+        throw new Error("Character not found!!!");
+      }
+      const data = await response.json();
+      displayCharacters(data.results);
+    } catch (error) {
+      cards.innerHTML = `<h1 style="color:#d9ac1a; font-family:'Creepster',fantasy; text-align:justify;">No characters found</h1>`;
+      console.error(error);
+    }
   }
 }
-  }
-  
- searCharacters()
 
+searCharacters();
+
+
+function updateButtonStates(previousButton, nextButton) {
+  if (currentPage === 1) {
+    previousButton.classList.add("disabled");
+    previousButton.setAttribute("aria-disabled", "true");
+  } else {
+    previousButton.classList.remove("disabled");
+    previousButton.removeAttribute("aria-disabled");
+  }
+
+  if (currentPage === totalPage) {
+    nextButton.classList.add("disabled");
+    nextButton.setAttribute("aria-disabled", "true");
+  } else {
+    nextButton.classList.remove("disabled");
+    nextButton.removeAttribute("aria-disabled");
+  }
+}
 
 function pagination() {
-  
   const paginationDiv = document.createElement("div");
   paginationDiv.classList.add("navDiv");
 
   const previousButton = document.createElement("button");
   previousButton.classList.add("previousButton");
-  previousButton.textContent = " <<< PREVIOUS  ";
+  previousButton.innerHTML = `&#8592; Previous`;
 
-  pageIndicator = document.createElement("span");
-  pageIndicator.style.margin = "0 15px";
-  pageIndicator.textContent = ` Page ${currentPage} `;
+  pageIndicator = document.createElement("div");
+  pageIndicator.classList.add("page-indicator");
+  pageIndicator.innerHTML = `
+    <span class="label">Page</span>
+    <span class="current" id="currentPageNum">${currentPage}</span>
+    <span class="separator">/</span>
+    <span class="total">${totalPage}</span>
+  `;
 
   const nextButton = document.createElement("button");
   nextButton.classList.add("nextButton");
-  nextButton.textContent = "NEXT >>> ";
+  nextButton.innerHTML = `Next &#8594;`;
+
+  updateButtonStates(previousButton, nextButton);
 
   previousButton.addEventListener("click", () => {
     if (currentPage > 1) {
       currentPage--;
-
       getData();
+      updateButtonStates(previousButton, nextButton);
     }
   });
 
   nextButton.addEventListener("click", () => {
-    currentPage++;
-    getData();
+    if (currentPage < totalPage) {
+      currentPage++;
+      getData();
+      updateButtonStates(previousButton, nextButton);
+    }
   });
-  
+  function handleKeyDown(event) {
+  if (event.key === "ArrowRight") {
+    if (currentPage < totalPage) {
+      currentPage++;
+      getData();
+      updateButtonStates(previousButton, nextButton);
+    }
+  }
+  if (event.key === "ArrowLeft") {
+    if (currentPage > 1) {
+      currentPage--;
+      getData();
+      updateButtonStates(previousButton, nextButton);
+    }
+  }
+}
+
+window.addEventListener("keydown", handleKeyDown);
 
   paginationDiv.appendChild(previousButton);
-  paginationDiv.appendChild(pageIndicator)
+  paginationDiv.appendChild(pageIndicator);
   paginationDiv.appendChild(nextButton);
   document.body.appendChild(paginationDiv);
 }
+
+
 pagination();
 getData();
- 

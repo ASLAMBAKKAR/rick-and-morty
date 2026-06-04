@@ -1,22 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Rubik+Wet+Paint&family=Eater&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
 body{
     margin: 0;
     background-color: #ffffff;
 }
-.card-container {
-    background-color: rgb(111, 107, 107);
+h3{
+    color: rgb(255, 255, 255); 
+    font-family: 'Creepster';
+    font-weight: 100;
     
+}
+
+.parentdiv{
+    background-image: url("images/rick-and-morty-rick-5120x2880-9494\ \(1\).png");
+   background-size: cover; 
+    background-attachment: fixed;
+    background-position: center; 
+    background-repeat: no-repeat;
+}
+.card-container { 
+    min-height: 100vh;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-}   
-h1,
-h2,
-h3 {
-    color: #6f1010;
-    font-size: 20px;
-    font-weight: bold;
 }
 .elements {
     display: flex;
@@ -24,116 +32,208 @@ h3 {
     align-items: center;
     justify-content: center;
     display: none;
+    color :rgb(255, 255, 255);
+    font-family: cursive;
 }
-
 img {
     border-radius: 10px;
-    border: 2px solid black;
+    border: 2px solid rgb(0, 0, 0);
     width: 200px;
     height: 200px;
-    margin-top: 5px;
+    margin-top: 7px;
 }
-
-.card-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    
-}
-
 .innerDiv {
+    position: relative;
     width: 300px;
     border-radius: 10px;
-    border-color: black;
-    border: 2px solid black;
-    margin: 5px;
+    margin: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: white;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(166, 6, 6, 0.2);
     border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 30px rgba(50, 4, 4, 0.1);
     backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-
+    -webkit-backdrop-filter: blur(1px);
+    border: 1px solid rgba(45, 7, 7, 0.315);
+    
 }
 .viewmore {
-    background-color: #000000;
-    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    background: #8B0000;
+    color: #ffffff;
     border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-bottom: 10px ;
+
+    padding: 12px 32px;
+    border-radius: 50px;
+
+    font-family: 'Creepster', fantasy;
+    font-size: 18px;
+    letter-spacing: 1px;
+
     cursor: pointer;
-    border-radius: 5px;
+    margin: 20px;
+
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
 }
+.viewmore.open {
+  position: absolute;
+  top: -27px;
+    right: -32px;
+  color: #440505;
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  border-radius: 50%;
+  z-index: 1000;
+}
+
+.viewmore:hover {
+    background: #040303;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 35px rgba(0, 0, 0, 0.5);
+}
+
+.viewmore:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+}
+.close-btn {
+  position: absolute;
+      top: -27px;
+    right: -32px;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+
+  font-size: 20px;
+  line-height: 1;
+  padding: 0;
+}
+
 .navDiv{
     background-color: black;
-      bottom : 0;
-  position: sticky; 
+    bottom : 0;
+    position: sticky; 
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
 }
+.blurred-card {
+  filter: blur(3px);
+  opacity: 0.4;
+  pointer-events: none;
+  transform: scale(0.97);
+  transition: filter 0.3s, opacity 0.3s, transform 0.3s;
+}
+.active-card {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.05);
+  z-index: 100;
+  width: 300px;
+  border: 1px solid rgba(255, 0, 0, 0.792);
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.692), 0 8px 40px rgba(207, 13, 13, 0.6);
+  transition: transform 0.3s, box-shadow 0.3s;
+  background: rgba(166, 6, 6, 0.2);
+}
 .previousButton,
-.nextButton { 
-  text-align: center;
+.nextButton {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(255, 255, 255);
+  gap: 8px;
+  background: #8B0000;
+  color: #fff;
   border: none;
-  color: white;
-  padding: 10px 10px;
-  text-align: center;
-  display: inline-block;
-  font-size: 16px;
+  padding: 12px 32px;
+  border-radius: 50px;
+  font-family: 'Creepster', fantasy;
+  font-size: 18px;
+  letter-spacing: 1px;
   cursor: pointer;
-  justify-content: center;
-  padding-left :5px;
-  justify-content: space-between;
-  margin :10px ;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  
+  margin: 20px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+}
+.previousButton:hover,
+.nextButton:hover {
+  background: #aa0000;
+  box-shadow: 0 6px 40px rgba(139, 0, 0, 0.6);
+  transform: scale(1.05);
+}
+.previousButton:active,
+.nextButton:active {
+  transform: scale(0.97);
+}
+.previousButton.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.nextButton.disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.head{
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: #050505;
 }
 .header{
-  top :0;
-  position : sticky; 
   text-align:center;
-  font-size:45px;
+  font-size:55px;
   background-color: #050505;
-  color: #c40000;
-  font-family: 'Creepster';
+  color: #681616e1;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  font-family: fantasy;
   background: radial-gradient(circle, #1a0000 0%, #000000 100%);
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  z-index: 5;
+  font-family: 'Creepster', fantasy;
+  color: #8B0000;
+  text-shadow: 0 0 10px #ff0000, 2px 4px 0 #000, 4px 8px 0 #3a0000, 0 0 30px #600000;
+  -webkit-text-stroke: 1px #000;
+  
 
 }
-.searchdiv{
-    top :45px;
-    position : sticky; 
-    display : flex;
-    justify-content:center;
-    background-color:black;
-    
-
-
+.searchdiv{ 
+    display: flex;
+    justify-content: center;
+    z-index: 5;
+    background-color: black;
+    padding: 10px 0; 
 }
 .searchBar{
     color :#ffffff;
@@ -148,10 +248,7 @@ img {
     overflow: hidden;
     transition: 0.5s;
     box-shadow: 0px 10px 25px  25px #dc1e1e33;
-    border: 2px solid #6f1010;
-
-   
-    
+    border: 2px solid #6f1010;  
 }
 
 .searchBar::placeholder {
@@ -164,6 +261,44 @@ img {
 .searchBar:hover{
     width : 300px;
     border-color: #6f1010;
+    cursor: pointer;
+}
+span{
+    color: rgb(106, 23, 23);
+    font-family: 'Creepster', fantasy;
+    border-radius: 50px solid red;
+    text-decoration: solid; 
+}
+.current{
+    color:rgba(255, 249, 249, 0.899);
+    font-size: 25px;
+    
+}
+.page-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border: 2px solid #8b1e1e;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #5e0606, #000000);
+    color: #6f1010;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(111, 16, 16, 0.15);
+    transition: all 0.3s ease;
+    gap: 12px;
+}
 
-
+.page-indicator:hover {
+    background: linear-gradient(135deg, #000000, #5e0606);
+    box-shadow: 0 6px 16px rgba(111, 16, 16, 0.25);
+    transform: translateY(-2px);
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(12, 12, 12);
+  
 }
